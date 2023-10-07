@@ -22,10 +22,7 @@
                 "src/*.vue",
                 "src/*/index.vue"
             ]
-        },
-        "types": [
-            "node"
-        ]
+        }
     },
     "include": [
         "src/**/*.ts",

@@ -10,10 +10,6 @@ const path = require('path');
 module.exports = merge(webpackCommonConfig, {
     mode: 'production',
     devtool: 'nosources-source-map',
-    output: {
-        publicPath: './',
-        clean: true
-    },
     performance: {
         hints: 'warning'
     },

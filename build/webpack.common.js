@@ -6,10 +6,11 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const ENV = process.env.NODE_ENV;
 const IS_PRODUCT = ENV === 'production';
+const PUBLIC_PATH = IS_PRODUCT ? './' : '/';
 
 module.exports = {
     target: 'web',
-    cache: {
+    cache: IS_PRODUCT ? false : {
         type: 'filesystem',
         allowCollectingMemory: true
     },
@@ -19,7 +20,8 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, '../dist'),
         filename: 'js/[name].[hash:8].bundle.js',
-        publicPath: '/'
+        publicPath: IS_PRODUCT ? './' : '/',
+        clean: true
     },
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.jsx', '.vue', '.json', '.scss', '.less', '.css'],
@@ -83,7 +85,7 @@ module.exports = {
                 test: /\.(woff|woff2|ttf|eot|svg|png|jpg|gif)(#.+)?$/,
                 type: 'asset',
                 generator: {
-                    filename: 'image/[hash:8][ext][query]'
+                    filename: 'image/[name].[hash:8][ext][query]'
                 },
                 parser: {
                     dataUrlCondition: {
@@ -109,7 +111,8 @@ module.exports = {
         new webpack.DefinePlugin({
             process: JSON.stringify({
                 env: {
-                    NODE_ENV: process.env.NODE_ENV
+                    NODE_ENV: process.env.NODE_ENV,
+                    ASSET_PATH: PUBLIC_PATH
                 }
             })
         })
